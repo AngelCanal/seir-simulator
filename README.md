@@ -1,39 +1,6 @@
-# YYG / covid19-projections.com SEIR Simulator
-
-We present the underlying SEIR model simulator behind the YYG / [covid19-projections.com](https://covid19-projections.com) model, as well a summarized set of parameters that helped generate the projections.
-
-If your system supports Python, you can generate your own simulations in under 5 minutes. No prior Python experience is needed to run this tool. [Get started here](#setup).
 
 ![SEIR Model Diagram](https://upload.wikimedia.org/wikipedia/commons/3/3d/SEIR.PNG)
 
-## Table of Contents
-* [Introduction](#introduction)
-* [Dependencies](#dependencies)
-* [Setup](#setup)
-* [Usage](#usage)
-  * [Basic Usage](#basic-usage)
-  * [Advanced Usage](#advanced-usage)
-  * [Setting Parameters](#setting-parameters)
-  * [Changing Parameters](#changing-parameters)
-  * [Using Your Own Parameters](#using-your-own-parameters)
-* [Parameters](#parameters)
-* [Updates](#updates)
-* [Question?](#question-bug-feedback-suggestion)
-* [Other Repositories](#other-repositories)
-
-## Introduction
-
-To begin, we want to be clear that this is **not** the full model used by [covid19-projections.com](https://covid19-projections.com). This is the underlying SEIR model without the machine learning layer to learn the parameters. In fact, **this simulator does not use any published data**: it only simulates infections, hospitalizations, and deaths given a single set of parameters. As a result, **this tool is meant to generate simulations, not projections**.
-
-Unlike traditional SEIR models, our simulator does not use differential equations - we use an abstracted state machine that tracks the probability transitions between the 4 states of SEIR: **S**usceptible-**E**xposed-**I**nfectious-**R**ecovered/deceased. Learn more about how our SEIR model works on [our website](https://covid19-projections.com/model-details/).
-
-Because this simulator has very little [dependencies](#dependencies) and does not rely on published data, it is fast to run, works right out of the box, and is easily modifiable. We've purposefully designed our simulator to be as lean and simple as possible.
-
-The simulations produced by this program will not necessarily match the full model, but it is often be a close approximation. The full model for *covid19-projections.com* generates thousands of parameter sets for each region and weighs the parameters based on how the resulting simulations match the observed data. With that said, this is the full, unabridged SEIR model used to generate the simulations - no modifications have been made for this release.
-
-In addition to the SEIR simulator, we provide the "best" set of parameters that our machine learning layer has learned to best fit the real-world observed data. This is done by taking a weighted mean (or median) of the individual parameters used in our full model. Because parameters are not independent, using only a single set of parameters may skew the simulation results when compared to the full model projections.
-
-While this simulator may not be best suited to make projections (since it is not tuned on any published data), we believe this simulator is particular helpful for mapping out relative scenarios. For example, how much can we reduce infections/deaths if [people started social distancing 7 days earlier](#decrease-inflection-date-by-7-days). Or what if [20% of individuals self-quarantine after symptom onset](#simulate-effect-of-quarantine). Or if there was [no reopening](#assume-no-reopening).
 
 ## Dependencies
 
@@ -263,25 +230,7 @@ Even though some regions open on the same date, infections can begin increasing 
 
 (Added 2020-07-07) We are incorporating a potential for a [fall wave](https://covid19-projections.com/about/#fall-wave) as a result of school reopenings and the beginning of influenza season. This is the daily multiplier applied to the R value. As of July/August, because it is still too early to learn this value, this is sampled randomly from a triangular distribution with mode 1.001.
 
-## Updates
-
-2020-07-22
-- Remove `REOPEN_R_MULT` / `POST_REOPENING_R_DECAY` parameters and replace with `REOPEN_R` / `REOPEN_INFLECTION`
-
-2020-07-19
-- Add `POST_REOPENING_EQUILIBRIUM_R` parameter
-
-2020-07-07
-- Add `FALL_R_MULTIPLIER` parameter
-
-2020-06-22
-- Initial project release
-
-## Question? Bug? Feedback? Suggestions?
-
-We welcome questions, bug reports, feedback and suggestions. You can find a lot of information on [covid19-projections.com](https://covid19-projections.com/about/). But feel free to open an [issue ticket](https://github.com/youyanggu/yyg-c19pro-model-public/issues) if your question was not answered.
-
-## Other Repositories
+## Other Relevant Repositories
 
 - [Main COVID-19 Repository](https://github.com/youyanggu/covid19_projections)
 - [Infections Estimates](https://github.com/youyanggu/covid19-infection-estimates-latest)
